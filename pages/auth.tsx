@@ -1,5 +1,4 @@
 import { SetStateAction, useCallback, useState } from "react";
-import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 
 import { registerUser } from "@/services/user";
@@ -22,7 +21,6 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   const [variant, setVariant] = useState("login");
 
@@ -39,14 +37,12 @@ const Auth = () => {
       await signIn("credentials", {
         email,
         password,
-        redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/profiles",
       });
-      router.push("/");
     } catch (error) {
       console.log(error);
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = useCallback(async () => {
     try {
@@ -108,7 +104,7 @@ const Auth = () => {
               <div
                 onClick={() =>
                   signIn("google", {
-                    callbackUrl: "/",
+                    callbackUrl: "/profiles",
                   })
                 }
                 className="
@@ -129,7 +125,7 @@ const Auth = () => {
               <div
                 onClick={() =>
                   signIn("github", {
-                    callbackUrl: "/",
+                    callbackUrl: "/profiles",
                   })
                 }
                 className="
