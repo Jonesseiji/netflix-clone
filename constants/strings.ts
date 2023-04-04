@@ -14,4 +14,5 @@ export const EMAIL_AND_PASSWORD_REQUIRED = "Email and password required";
 export const EMAIL_NOT_EXISTS = "Email not exists";
 export const INCORRECT_PASSWORD = "Invalid password";
 export const EMAIL_ALREADY_EXISTS = "Email already exists";
+export const NOT_SIGNED_IN = "Not signed in";
 //#endregion API Errors strings
