@@ -1,6 +1,9 @@
+import { SetStateAction, useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import { registerUser } from "@/services/user";
 import Input from "@/components/input";
 import { CREATE_ACCOUNT } from "@/constants/strings";
-import { SetStateAction, useCallback, useState } from "react";
 import { SIGN_UP, ALREADY_HAVE_ACCOUNT } from "../constants/strings";
 import {
   FIRST_TIME_USING,
@@ -11,8 +14,9 @@ import {
 
 const Auth = () => {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const [variant, setVariant] = useState("login");
 
@@ -23,6 +27,29 @@ const Auth = () => {
       ),
     []
   );
+
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password, router]);
+
+  const register = useCallback(async () => {
+    try {
+      await registerUser(email, name, password);
+      login();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [email, name, password, login]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -38,12 +65,12 @@ const Auth = () => {
             <div className="flex flex-col gap-4">
               {variant === "register" && (
                 <Input
-                  label="Username"
+                  label="name"
                   onChange={(event: {
                     target: { value: SetStateAction<string> };
-                  }) => setUsername(event.target.value)}
-                  id="username"
-                  value={username}
+                  }) => setName(event.target.value)}
+                  id="name"
+                  value={name}
                 />
               )}
               <Input
@@ -65,7 +92,10 @@ const Auth = () => {
                 value={password}
               />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button
+              onClick={variant === "login" ? login : register}
+              className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+            >
               {variant === "login" ? LOGIN : SIGN_UP}
             </button>
             <p className="text-neutral-500 mt-12">
