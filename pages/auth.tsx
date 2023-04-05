@@ -46,8 +46,7 @@ const Auth = () => {
 
   const register = useCallback(async () => {
     try {
-      await registerUser(email, name, password);
-      login();
+      await registerUser(email, name, password).then(() => login());
     } catch (err) {
       console.log(err);
     }
