@@ -1,3 +1,4 @@
+import BillBoard from "@/components/BillBoard";
 import Navbar from "@/components/Navbar";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { NextPageContext } from "next";
@@ -24,8 +25,9 @@ export default function Home() {
   const { data: user } = useCurrentUser();
 
   return (
-    <div style={{ height: "250vh" }}>
+    <div style={{ height: "120vh" }}>
       <Navbar />
+      <BillBoard />
     </div>
   );
 }
