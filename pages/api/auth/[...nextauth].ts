@@ -13,8 +13,9 @@ import {
   EMAIL_NOT_EXISTS,
   INCORRECT_PASSWORD,
 } from "@/constants/strings";
+import { AuthOptions } from "next-auth";
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID || "",
@@ -77,4 +78,6 @@ export default NextAuth({
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+export default NextAuth(authOptions);
