@@ -32,3 +32,7 @@ export const MENU_BROWSE_BY_LANG = "Browse by Languages";
 //#region Account Menu Strings
 export const ACC_MENU_USERNAME = "";
 //#endregion Account Menu Strings
+
+//#region Global Strings
+export const INVALID_ID = "Invalid ID";
+//#endregion Global Strings
