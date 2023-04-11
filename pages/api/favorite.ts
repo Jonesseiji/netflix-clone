@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { without } from "lodash";
 import prismadb from "@/lib/prismadb";
 import serverAuth from "@/lib/serverAuth";
+import { INVALID_ID } from "@/constants/strings";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +21,7 @@ export default async function handler(
       });
 
       if (!existingMovie) {
-        throw new Error("Invalid ID");
+        throw new Error(INVALID_ID);
       }
 
       const user = await prismadb.user.update({
@@ -48,7 +49,7 @@ export default async function handler(
       });
 
       if (!existingMovie) {
-        throw new Error("Invalid ID");
+        throw new Error(INVALID_ID);
       }
 
       const updatedFavoriteIds = without(currentUser.favoriteIds, movieId);
